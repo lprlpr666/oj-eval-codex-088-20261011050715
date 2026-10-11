@@ -51,11 +51,13 @@ void solve_subtask1(long long n) {
 
 // Solve subtask 2: compute the last remaining card directly.
 long long solve_subtask2(long long n) {
-    if (n == 0) return 0;
-    // Find the highest power of two <= n
-    long long p = 1LL << (63 - __builtin_clzll(n)); // works for n>0
-    if (p == n) return n;
-    return 2 * (n - p);
+    // The process moves the first card to the end, then discards the new first card.
+    // The final remaining card follows the pattern: 1,1,3,1,3,5,7,1,...
+    // Derivation leads to: result = 2 * (n - 2^{⌊log2 n⌋}) + 1
+    if (n <= 0) return 0;
+    // highest power of two <= n
+    long long p = 1LL << (63 - __builtin_clzll(n));
+    return 2 * (n - p) + 1;
 }
 
 int main() {
@@ -72,4 +74,3 @@ int main() {
     }
     return 0;
 }
-
